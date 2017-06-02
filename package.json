@@ -1,0 +1,26 @@
+{
+  "name": "ticketing-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "kcors": "^2.2.1",
+    "koa": "^2.2.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-json": "^2.0.2",
+    "koa-jwt": "^3.2.1",
+    "koa-logger": "^3.0.0",
+    "koa-router": "^7.1.1",
+    "koa-send": "^4.1.0",
+    "mysql2": "^1.2.0",
+    "node-schedule": "^1.2.3",
+    "reqwest": "^2.0.5",
+    "sequelize": "4.0.0-2",
+    "xhr2": "^0.1.4"
+  }
+}
