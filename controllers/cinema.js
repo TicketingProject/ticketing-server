@@ -10,7 +10,6 @@ const ApiErrorName = require('../utils/apiErrorName');
  * @param {*} ctx - 存在时改变 ctx.body
  */
 const init = async function(ctx) {
-  console.log('in')
   try {
     const result = JSON.parse(await reqwest(urlConfig.cinema));
     if (result.status == 0) {
@@ -21,7 +20,6 @@ const init = async function(ctx) {
       await Cinema.sync({ force: true });
 
       await Promise.all(Object.keys(data).map(async(key, index) => {
-        console.log(key, index);
         await Area.create({
           id: index,
           nm: key

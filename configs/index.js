@@ -8,5 +8,8 @@ module.exports = {
     username: 'root',
     password: '0218'
   },
+  redis: {
+    port: 6379
+  },
   mapApiKey: '6G5BZ-JS5HP-SO4DG-VPGNT-BPJFS-YTFJ3'
 }
