@@ -4,6 +4,8 @@ const MovieDetail = require('../models/movie-detail');
 const Photo = require('../models/photo');
 const Comment = require('../models/comment');
 const reqwest = require('reqwest');
+const ApiError = require('../utils/apiError');
+const ApiErrorName = require('../utils/apiErrorName');
 
 /**
  * 刷新电影简介列表
@@ -14,18 +16,29 @@ const reflesh = async function(ctx) {
     const result = JSON.parse(await reqwest(urlConfig.movieHot));
     if (result.status == 0) {
       const data = result.data.movies;
+
+      // 清空原数据
       await Movie.sync({ force: true });
+      await MovieDetail.sync({ force: true });
+      await Comment.sync({ force: true });
+      await Photo.sync({ force: true });
+
       await Movie.bulkCreate(data);
       const res = await Movie.findAll();
       if (ctx && ctx.body) {
-        ctx.body = res;
+        ctx.json(res);
       }
       return res;
     } else {
-      throw new Error(`Request '${urlConfig.movieHot}' error:\n ${result}`);
+      throw new ApiError(ApiErrorName.FETCH_ERROR, `Request '${urlConfig.movieHot}' error:\n ${result}`);
     }
-  } catch(e) {
-    console.error(e);
+  } catch(err) {
+    console.error(err);
+    if (err instanceof ApiError) {
+      throw err;
+    } else {
+      throw new ApiError(ApiErrorName.DB_ERROR);
+    }
   }
 }
 
@@ -37,12 +50,13 @@ const getAll = async function(ctx) {
   try {
     const data = await Movie.findAll();
     if (data && data.length) {
-      ctx.body = data;
+      ctx.json(data);
     } else {
-      ctx.body = await reflesh();
+      ctx.json(reflesh());
     }
-  } catch(e) {
-    console.error(e);
+  } catch(err) {
+    console.error(err);
+    throw new ApiError(ApiErrorName.DB_ERROR);
   }
 }
 
@@ -51,12 +65,16 @@ const getAll = async function(ctx) {
  * @param {*} ctx 
  */
 const _fetchDetail = async function(id) {
-  console.log(id);
   try {
     const url = urlConfig.movieDetail(id);
     const result = JSON.parse(await reqwest(url));
     if (result.status == 0) {
       const data = result.data;
+      
+      let dra = data.MovieDetailModel.dra.replace('<p>', '');
+      dra = dra.replace('</p>', '');
+      data.MovieDetailModel.dra = dra;
+
       const tasks = [
         MovieDetail.create(data.MovieDetailModel),
         Photo.bulkCreate(data.MovieDetailModel.photos.map(item => {
@@ -72,10 +90,15 @@ const _fetchDetail = async function(id) {
       ]
       await Promise.all(tasks);
     } else {
-      throw new Error(`Request '${urlConfig.movieDetail(id)}' -  error:\n ${result}`);
+      throw new ApiError(ApiErrorName.FETCH_ERROR, `Request '${urlConfig.movieDetail(id)}' -  error:\n ${result}`);
     }
-  } catch(e) {
-    console.error(e);
+  } catch(err) {
+    console.error(err);
+    if (err instanceof ApiError) {
+      throw err;
+    } else {
+      throw new ApiError(ApiErrorName.DB_ERROR);
+    }
   }
 }
 
@@ -101,7 +124,7 @@ const getDetail = async function(ctx) {
         })
       ];
       let [photos, comments] = await Promise.all(tasks);
-      ctx.body = { detail, photos, comments };
+      ctx.json({ detail, photos, comments });
     } else {
       await _fetchDetail(id);
       const detail = await MovieDetail.findById(id);
@@ -119,11 +142,12 @@ const getDetail = async function(ctx) {
           })
         ];
         let [photos, comments] = await Promise.all(tasks);
-        ctx.body = { detail, photos, comments };
+        ctx.json({ detail, photos, comments });
       }
     }
-  } catch(e) {
-    console.error(e);
+  } catch(err) {
+    console.error(err);
+    throw new ApiError(ApiErrorName.DB_ERROR);
   }
 }
 

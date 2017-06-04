@@ -1,6 +1,8 @@
 const jwt = require('koa-jwt');
 const User = require('../models/user');
 const config = require('../config');
+const ApiError = require('../utils/apiError');
+const ApiErrorName = require('../utils/apiErrorName');
 
 // exports.login = function (cxt, next) {
 

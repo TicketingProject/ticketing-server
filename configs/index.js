@@ -7,5 +7,6 @@ module.exports = {
     database: 'ticketing',
     username: 'root',
     password: '0218'
-  }
+  },
+  mapApiKey: '6G5BZ-JS5HP-SO4DG-VPGNT-BPJFS-YTFJ3'
 }
