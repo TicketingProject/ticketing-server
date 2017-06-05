@@ -9,7 +9,8 @@ module.exports = {
     password: '0218'
   },
   redis: {
-    port: 6379
+    port: 6379,
+    timeout: 3600
   },
   mapApiKey: '6G5BZ-JS5HP-SO4DG-VPGNT-BPJFS-YTFJ3'
 }

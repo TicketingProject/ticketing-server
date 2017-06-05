@@ -2,8 +2,8 @@ const urlConfig = require('../configs/url');
 const Cinema = require('../models/cinema');
 const Area = require('../models/area');
 const reqwest = require('reqwest');
-const ApiError = require('../utils/apiError');
-const ApiErrorName = require('../utils/apiErrorName');
+const ApiError = require('../error/apiError');
+const ApiErrorName = require('../error/apiErrorName');
 
 /**
  * 刷新区域及影院

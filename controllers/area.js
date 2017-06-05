@@ -1,7 +1,7 @@
 const Area = require('../models/area');
 const urlConfig = require('../configs/url');
-const ApiError = require('../utils/apiError');
-const ApiErrorName = require('../utils/apiErrorName');
+const ApiError = require('../error/apiError');
+const ApiErrorName = require('../error/apiErrorName');
 const reqwest = require('reqwest');
 
 /**

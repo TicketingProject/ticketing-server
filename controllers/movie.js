@@ -4,8 +4,8 @@ const MovieDetail = require('../models/movie-detail');
 const Photo = require('../models/photo');
 const Comment = require('../models/comment');
 const reqwest = require('reqwest');
-const ApiError = require('../utils/apiError');
-const ApiErrorName = require('../utils/apiErrorName');
+const ApiError = require('../error/apiError');
+const ApiErrorName = require('../error/apiErrorName');
 
 /**
  * 刷新电影简介列表

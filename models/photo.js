@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = require("../utils/db");
+const db = require("../db");
 
 const Phone = db.define('photo', {
   movieId: Sequelize.INTEGER,

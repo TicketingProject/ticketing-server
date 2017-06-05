@@ -1,6 +1,9 @@
 const config = require('../configs').mysql;
 const Sequelize = require('sequelize');
 
+/**
+ * ORM
+ */
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
   dialect: 'mysql',
@@ -13,5 +16,17 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
     timestamps: false // true by default
   }
 });
+
+
+/**
+ * Mysql 连接验证
+ */
+sequelize.authenticate().then(() => {
+  console.log('Connection has been established successfully.');
+}).catch(err => {
+  console.error('Unable to connect to the database:', err);
+  process.exit(1);
+});
+
 
 module.exports = sequelize;
