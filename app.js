@@ -19,6 +19,24 @@ app.use(cors());
 app.use(bodyParser());
 
 /**
+ * 包装 ctx.body 用于 RESTful json 数据返回
+ */
+app.use(async (ctx, next) => {
+  ctx.json = (data) => {
+    const res = { code: 0, data, message: 'OK' };
+    ctx.body = res;
+  }
+  await next();
+});
+
+/**
+ * redis 缓存
+ */
+if (process.env.NODE_ENV !== 'development') {
+  // app.use(redis());
+}
+
+/**
  * 全局错误处理
  */
 app.use(errorHandler());

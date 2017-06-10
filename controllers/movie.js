@@ -151,5 +151,29 @@ const getDetail = async function(ctx) {
   }
 }
 
-module.exports = { reflesh, getAll, getDetail };
+
+/**
+ * 获取电影预告
+ * @param {*} ctx 
+ */
+const getPre = async function(ctx) {
+  const id = ctx.params.id;
+  try {
+    const detail = await MovieDetail.findById(id);
+    if (detail && detail.id) {
+      ctx.json({ vd: detail.vd });
+    } else {
+      await _fetchDetail(id);
+      const detail = await MovieDetail.findById(id);
+      if (detail && detail.id) {
+        ctx.json({ vd: detail.vd });
+      }
+    }
+  } catch(err) {
+    console.error(err);
+    throw new ApiError(ApiErrorName.DB_ERROR);
+  }
+}
+
+module.exports = { reflesh, getAll, getDetail, getPre };
 

@@ -3,11 +3,9 @@ const ApiErrorName = require('./apiErrorName');
 
 module.exports = () => async (ctx, next) => {
   try {
-    ctx.json = (data, cache = true) => {
-      const res = { code: 0, data, message: 'OK' };
-      ctx.body = res;
-    }
+    console.log('in')
     await next();
+    
   } catch (err) {
     
     // 未知错误类型

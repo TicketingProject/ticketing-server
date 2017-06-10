@@ -4,6 +4,7 @@ const movieController = require('../controllers/movie');
 
 router.get('/', movieController.getAll);
 router.get('/:id', movieController.getDetail);
+router.get('/:id/pv', movieController.getPre);
 router.get('/auto/refresh', movieController.reflesh);
 
 module.exports = router;
