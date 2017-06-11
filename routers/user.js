@@ -4,8 +4,6 @@ const router = new Router();
 const userController = require('../controllers/user');
 
 router
-  .post('/login', userController.login)
-  .post('/register', userController.register)
-  .get('/logout', userController.logout);
+  .post('/', userController.getToken)
 
 module.exports = router;

@@ -1,28 +1,18 @@
 const jwt = require('koa-jwt');
 const User = require('../models/user');
-const config = require('../config');
+const config = require('../configs');
 const ApiError = require('../error/apiError');
 const ApiErrorName = require('../error/apiErrorName');
 
-// exports.login = function (cxt, next) {
+exports.getToken = function (cxt, next) {
 
-//   let req = this.request.body;
-//   let res = null;
+  let req = this.request.body;
+  
+  // 生成 Token
+  var token = jwt.sign({
+    timestamp: req.timestamp,
+    openId: req.openId
+  }, config.JWTSecret);
 
-//   try {
-//     res = yield Admin.findOne({
-//       username: req.username,
-//       password: req.password
-//     }).exec();
-//   } catch (e) {
-//     return this.resp.error(e.message);
-//   }
-
-//   if (res) {
-//     var token = jwt.sign(res, config.JWT_SECRET);
-//     return this.resp.send({token});
-//   } else {
-//     return this.resp.send({msg: "账号或密码错误"});
-//   }
-
-// };
+  cxt.json({ token });
+};
