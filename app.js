@@ -8,6 +8,7 @@ const json = require('koa-json')
 const config = require('./configs');
 const schedule = require('./schedules');
 const db = require('./db');
+const redis = require('./redis');
 
 const errorHandler = require('./error');
 
@@ -47,10 +48,6 @@ app.use(async (ctx, next) => {
       ctx.redis.EXPIRE(ctx.path, 10);
     }
     const res = { code: 0, data, message: 'OK' };
-    // 响应后设置缓存
-    ctx.redis.set(ctx.path, res);
-    // 10s过期
-    ctx.redis.EXPIRE(ctx.path, 10);
     ctx.body = res;
   }
   await next();

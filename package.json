@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "NODE_ENV=development nodemon app.js"
   },
   "author": "",
@@ -20,6 +21,7 @@
     "koa-send": "^4.1.0",
     "mysql2": "^1.2.0",
     "node-schedule": "^1.2.3",
+    "redis": "^2.7.1",
     "reqwest": "^2.0.5",
     "sequelize": "4.0.0-2",
     "xhr2": "^0.1.4"
