@@ -3,7 +3,6 @@ const ApiErrorName = require('./apiErrorName');
 
 module.exports = () => async (ctx, next) => {
   try {
-    console.log('in')
     await next();
     
   } catch (err) {
